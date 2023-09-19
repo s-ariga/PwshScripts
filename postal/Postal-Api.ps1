@@ -1,5 +1,8 @@
 # Seiichi Ariga <seiichi.ariga@gmail.com>
 
+# コマンド引数で郵便番号(ハイフンなし7ケタor‐月8ケタ半角)を入力すると、住所部分が帰ってくる。
+# APIは https://zipaddress.net/ を使わせてもらってます
+
 $url = "https://api.zipaddress.net/?zipcode="
 
 $firstTime = $true
@@ -15,7 +18,9 @@ $Args | Foreach-Object {
     if ($obj.code -eq '200') {
         Write-Host ("〒{0:000-0000}" -f $_ + ' の住所: ' + $obj.data.fullAddress) -ForegroundColor Cyan
     }elseif ($obj.code -eq '404') {
-        Write-Host ("〒{0:000-0000}" -f $_ + 'は存在しません') -ForegroundColor Red
+        Write-Host ("〒{0:000-0000}" -f $_ + 'は存在しません。') -ForegroundColor Red
+    }else {
+        Write-Host ("不明なエラー: " + $obj.code)
     }
     $firstTime = $false
 }
