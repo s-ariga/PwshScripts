@@ -1,15 +1,26 @@
 # Seiichi Ariga <seiichi.ariga@gmail.com>
 
-# コマンド引数で郵便番号(ハイフンなし7ケタor‐月8ケタ半角)を入力すると、住所部分が帰ってくる。
-# APIは https://zipaddress.net/ を使わせてもらってます
+<#
+Usage:
+Postal-Api.ps1 1234567
+
+Description:
+コマンド引数で郵便番号(ハイフンなし7ケタor‐月8ケタ半角)を入力すると、住所部分が帰ってくる。
+
+APIは https://zipaddress.net/ を使わせてもらってます
+#>
+
+# でもどちらかというと、住所 -> 郵便番号 のほうが使うよな...w
 
 $url = "https://api.zipaddress.net/?zipcode="
 
+# 2個以上検索するときは、間に時間を空ける
 $firstTime = $true
+$interval = 1
 
 $Args | Foreach-Object {
     if ($firstTime -eq $false) {
-        Start-Sleep -Seconds 1
+        Start-Sleep -Seconds $interval
     }
     $request = $url + $_
     $res = Invoke-WebRequest $request
