@@ -20,6 +20,7 @@ $interval = 1
 
 $Args | Foreach-Object {
     if ($firstTime -eq $false) {
+        # とりあえず、寝とく。APIサーバに負荷かけすぎないために
         Start-Sleep -Seconds $interval
     }
     $request = $url + $_
