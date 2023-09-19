@@ -2,7 +2,12 @@
 
 $url = "https://api.zipaddress.net/?zipcode="
 
+$firstTime = $true
+
 $Args | Foreach-Object {
+    if ($firstTime -eq $false) {
+        Start-Sleep -Seconds 1
+    }
     $request = $url + $_
     $res = Invoke-WebRequest $request
     $obj = ConvertFrom-Json $res.Content
@@ -12,6 +17,6 @@ $Args | Foreach-Object {
     }elseif ($obj.code -eq '404') {
         Write-Host ("〒{0:000-0000}" -f $_ + 'は存在しません') -ForegroundColor Red
     }
-    Start-Sleep -Seconds 1
+    $firstTime = $false
 }
 
