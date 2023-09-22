@@ -22,4 +22,5 @@ Get-Process | Foreach-Object {
     $processArr += "${processName} : ${workingSet} : ${processPath}"
 }
 
+# 最後に一覧表示
 $processArr
